@@ -1,0 +1,4 @@
+node_modules
+package-lock.json
+locale_de_common.json
+locale_en_US_common.json

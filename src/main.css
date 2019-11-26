@@ -1,0 +1,18 @@
+form
+{
+  display: table;
+  width: 500px;
+}
+
+form p
+{
+  display: table-row;
+  height: 30px;
+}
+
+form p label
+{
+  margin-top: 30px;
+  display: table-cell;
+}
+
