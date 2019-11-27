@@ -50,21 +50,31 @@
     {
       const sourceMsg = source[stringId].message;
       const targetMsg = target[stringId].message;
+      const description = source[stringId].description;
+      const sourceElem = `<source>${sourceMsg}</source>`;
+      const targetElem = targetMsg ? `<target>${targetMsg}</target>` : "";
+      const noteElem = description ? `<note>${description}</note>` : "";
 
       // Question: What to do if targetMsg doesn't exist?
-      units.push(`<unit id="${stringId}">
-      <segment>
-       <source>${sourceMsg}</source>
-       <target>${targetMsg}</target>
-      </segment>
-     </unit>`);
+      units.push(`<trans-unit id="${stringId}">
+        <segment>
+          ${sourceElem}
+          ${targetElem}
+          ${noteElem}
+        </segment>
+      </trans-unit>`);
     }
-    const xliff = `<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
-    srcLang="en_US" trgLang="${locale}">
-    <file original="${fileName}">
-      ${units.join("\n")}
-    </file>
-    </xliff>`;
+    const xliff = `<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2"
+xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2
+http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="${fileName}" datatype="plaintext" source-language="en_US" target-language="${locale}">
+    <body>
+      ${units.join("\n      ")}
+    </body>
+  </file>
+</xliff>`;
     return xliff;
   }
 
