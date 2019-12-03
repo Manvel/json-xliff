@@ -43,6 +43,16 @@
     });
   }
 
+  function replacePlaceholders(placeholders, prefix, txt)
+  {
+    for (const placeholder in placeholders)
+    {
+      txt = txt.replace(new RegExp(`\\$${placeholder}\\$`, "g"),
+                        `<x id="${prefix}_${placeholder}" />`);
+    }
+    return txt;
+  }
+
   function json2xliff(source, target, locale, fileName)
   {
     const units = [];
@@ -51,8 +61,13 @@
       const sourceMsg = source[stringId].message;
       const targetMsg = target[stringId].message;
       const description = source[stringId].description;
-      const sourceElem = `<source>${sourceMsg}</source>`;
-      const targetElem = targetMsg ? `<target>${targetMsg}</target>` : "";
+
+      const placeholders = source[stringId].placeholders;
+      const sourceXlf = replacePlaceholders(placeholders, stringId, sourceMsg);
+      const targetXlf = replacePlaceholders(placeholders, stringId, targetMsg);
+
+      const sourceElem = `<source>${sourceXlf}</source>`;
+      const targetElem = targetMsg ? `<target>${targetXlf}</target>` : "";
       const noteElem = description ? `<note>${description}</note>` : "";
 
       // Question: What to do if targetMsg doesn't exist?
