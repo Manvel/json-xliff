@@ -55,7 +55,7 @@
 
   function replaceInlinePlaceholders(stringId, txt)
   {
-    txt = txt.replace(new RegExp("<(a|em|slot|strong)(\\d)?>(.*?)<\\/\\1\\2>", "g"), `<x id="${stringId}_$1$2" />`);
+    txt = txt.replace(new RegExp("<(a|em|slot|strong)(\\d)?>(.*?)<\\/\\1\\2>", "g"), `<g id="${stringId}_$1$2"><mrk mtype="protected">$3</mrk></g>`);
     return txt;
   }
 
