@@ -53,6 +53,12 @@
     return txt;
   }
 
+  function replaceInlinePlaceholders(stringId, txt)
+  {
+    txt = txt.replace(new RegExp("<(a|em|slot|strong)(\\d)?>(.*?)<\\/\\1\\2>", "g"), `<x id="${stringId}_$1$2" />`);
+    return txt;
+  }
+
   function json2xliff(source, target, locale, fileName)
   {
     const units = [];
@@ -63,8 +69,8 @@
       const description = source[stringId].description;
 
       const placeholders = source[stringId].placeholders;
-      const sourceXlf = replacePlaceholders(placeholders, stringId, sourceMsg);
-      const targetXlf = replacePlaceholders(placeholders, stringId, targetMsg);
+      const sourceXlf = replaceInlinePlaceholders(stringId, replacePlaceholders(placeholders, stringId, sourceMsg));
+      const targetXlf = replaceInlinePlaceholders(stringId, replacePlaceholders(placeholders, stringId, targetMsg));
 
       const sourceElem = `<source>${sourceXlf}</source>`;
       const targetElem = targetMsg ? `<target>${targetXlf}</target>` : "";
